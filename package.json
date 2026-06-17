@@ -1,0 +1,29 @@
+{
+  "name": "session_auth_system",
+  "version": "1.0.0",
+  "description": "This is the backend api of session based authentication system. That uses express-session package for sessions, connect-mongo package to store user sessions.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sambadkhanal/session_auth_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sambadkhanal/session_auth_system/issues"
+  },
+  "homepage": "https://github.com/sambadkhanal/session_auth_system#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
