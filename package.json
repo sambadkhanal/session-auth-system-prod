@@ -19,9 +19,12 @@
   },
   "homepage": "https://github.com/sambadkhanal/session_auth_system#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mongoose": "^9.7.0"
   },
   "devDependencies": {
