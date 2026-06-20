@@ -12,7 +12,8 @@ const app = express();
 
 // ---------- Middlewares ----------
 app.set("trust proxy", 1);
-// It tells express i am running behind a proxy (like Nginx, Render, Railway, Cloudflare) and i should trust the first proxy infront of me.
+// It tells browser to accept and store cookie sent from proxy (like Render, Nginx, Railway, Cloudflare)
+// Telling browser to accept and store cookie from https://session-auth-system.onrender.com which is our live backend api deployed on Render(Proxy)
 
 app.use(express.json());
 
