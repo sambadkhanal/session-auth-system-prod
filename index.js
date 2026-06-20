@@ -11,7 +11,8 @@ dotenv.config();
 const app = express();
 
 // ---------- Middlewares ----------
-// app.set("trust proxy", 1); // It tells express i am running behind a proxy (like Nginx, Render, Railway, Cloudflare) and i should trust the first proxy infront of me.
+app.set("trust proxy", 1);
+// It tells express i am running behind a proxy (like Nginx, Render, Railway, Cloudflare) and i should trust the first proxy infront of me.
 
 app.use(express.json());
 
