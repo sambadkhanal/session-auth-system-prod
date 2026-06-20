@@ -6,6 +6,18 @@ This project demonstrates secure session authentication with cross-origin cookie
 
 ---
 
+# Routes
+
+GET /api/auth/checkSession
+
+POST /api/auth/register
+
+POST /api/auth/login
+
+POST /api/auth/logout
+
+---
+
 # 🧠 Tech Stack
 
 - Node.js
@@ -44,3 +56,13 @@ cookie: {
   sameSite: "none"
 }
 ```
+
+## Mongodb architecture
+
+session-auth-system (Project's name in mongodb atlas)
+
+session-auth (Cluster name)
+
+auth_db (Database name)
+├── users
+└── session_store

@@ -57,11 +57,13 @@ app.use(
 // Auth
 app.use("/api/auth", authRoutes);
 
+// Database and Server
+const PORT = process.env.PORT || 8080;
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Mongodb connected");
-    app.listen(process.env.PORT, () => {
+    app.listen(PORT, () => {
       console.log(`Server is listening to the port: ${process.env.PORT}`);
     });
   })
