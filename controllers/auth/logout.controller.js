@@ -1,14 +1,15 @@
 const logoutController = async (req, res) => {
   // ---------- Session auth logout ----------
-  // Lets remove user's session document or session object from mongo session_store collection
+  // req.session.destroy() deletes the session immediately from MongoStore ie session_store
   req.session.destroy((err) => {
     if (err) {
+      console.error("Logout error:", err.stack);
       return res
         .status(500)
         .json({ success: false, msng: "Failed to logout", error: err });
     }
 
-    // Session object or document is removed from MongoStore so now lets remove cookie from browser
+    // Now delete cookie from browser
     res.clearCookie("session_id", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

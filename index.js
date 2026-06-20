@@ -11,42 +11,50 @@ dotenv.config();
 const app = express();
 
 // ---------- Middlewares ----------
+// app.set("trust proxy", 1); // It tells express i am running behind a proxy (like Nginx, Render, Railway, Cloudflare) and i should trust the first proxy infront of me.
+
 app.use(express.json());
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // Adjust it to your frontend URL
+    origin: [
+      "http://127.0.0.1:5500", // Live Server
+      "http://localhost:5173", // Vite React App
+    ],
     credentials: true, // Tells the browser: "It is okay to receive sensitive data (like cookies) during this cross-origin request." and now in frontend side you have to include {credentials: "include"} inside fetch
   }),
 );
 
-// Here you are specifying the session_id which will be sent from server and browser will store it as cookie and sends it in future requests so that server can identify the session object or document from session_store in mongo
+// Creates req.sessionID and req.session object immediately and thats it
 app.use(
   session({
-    name: "session_id", // Name of the cookie that will be shown in browser and its value will be used to identify user's session object or document inside the MongoStore collection named "session_store"
+    name: "session_id", // Name of the cookie that will be stored in browser and its value will be used to identify user's session object stored inside the MongoStore collection named "session_store"
     cookie: {
-      maxAge: 1000 * 60 * 60, // After 60 minutes above cookie will be deleted from the browser automatically and browser will stop sending this cookie to the server
+      maxAge: 1000 * 60 * 60, // After 60 minutes above cookie will be deleted from the browser automatically and the browser will stop sending this cookie to the server
       httpOnly: true,
       path: "/",
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      //   https://app.example.com //frontend
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // sameSite: none works only with secure: true for cross site cookie sharing
+      //   https://app.example.com  //frontend
       //   https://api.example.com //api
-      //   If in same domain/site like above example ie example.com then use same:Site: "lax"
+      //   If in same domain/site like above example ie example.com then use sameSite: "lax"
     },
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
 
+    // rolling: true, // You have 60 minutes of inactivity allowed — every request resets the countdown
+
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
       collectionName: "session_store",
-      ttl: 60 * 60, // session expires after 60 minutes and expired sessions will eventually(may take some time) be deleted from MongoDB automatically
+      ttl: 60 * 60, // After 60 mins session document will be physically DELETED from MongoStore although its not instant or immediate but it will be eventually deleted
     }),
   }),
 );
 
 // ---------- Routes ----------
-// Auth Route
+// Auth
 app.use("/api/auth", authRoutes);
 
 mongoose
